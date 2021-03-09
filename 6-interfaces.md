@@ -185,3 +185,35 @@ mySearch = function (src: string, sub: string): boolean {
   return result > -1;
 };
 ```
+Параметры функции проверяются по одному, при этом типы в каждой соответствующей позиции параметра проверяются относительно друг друга. Если вы не хотите указывать типы аргументов, контекстная типизация TypeScript может вывести их самостоятельно, поскольку значение функции присваивается непосредственно переменной типа `SearchFunc`. Возвращаемый тип функции также будет выведен автоматически (в данном случае `true` или `false`).
+```TypeScript
+let mySearch: SearchFunc;
+
+mySearch = function (src, sub) {
+  let result = src.search(sub);
+  return result > -1;
+};
+```
+Если бы выражение функции возвращало число или строку, средство проверки типов выдало бы ошибку, указывающую, что тип возвращаемого значения данной функции не соответствует типу возвращаемого значения, описанному в интерфейсе SearchFunc.
+```TypeScript
+let mySearch: SearchFunc;
+
+mySearch = function (src, sub) {
+  let result = src.search(sub);
+  return "string";
+};
+// Type '(src: string, sub: string) => string' is not assignable to type 'SearchFunc'.
+// Type 'string' is not assignable to type 'boolean'.
+```
+## Индексируемые типы
+Подобно тому, как мы можем использовать интерфейсы для описания типов функций, мы также можем описывать типы, которые мы можем «индексировать», например `a[10]` или `ageMap[«daniel»]`. Индексируемые типы имеют индексную сигнатуру, описывающую типы, которые мы можем использовать для индексации объекта, а также соответствующие типы возвращаемых значений.
+```TypeScript
+interface StringArray {
+  [index: number]: string;
+}
+
+let myArray: StringArray;
+myArray = ["Bob", "Fred"];
+
+let myStr: string = myArray[0];
+```
