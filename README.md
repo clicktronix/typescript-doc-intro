@@ -1,1 +1,1 @@
-# TypeScript - введение
+# TypeScript
